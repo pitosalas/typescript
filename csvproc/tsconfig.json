@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "outDir": "built/",
+        "sourceMap": true,
+        "target": "es5"
+    },
+    "files": [
+        "./converter.ts",
+        "./typings/tsd.d.ts"
+    ]
+}

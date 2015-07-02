@@ -1,0 +1,6 @@
+/// <reference path="typings/node/node.d.ts" />
+
+const fs = require('fs');
+fs.watch('target.txt', function() {
+	console.log("file target.txt just changed");
+});
