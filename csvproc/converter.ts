@@ -51,12 +51,11 @@ class CSVFile {
 	questions(): string[] {
 		var regexp = /\[(.*)\]/;
 		return this.rawRecords[0].map((value) => {
-			console.log(value);
 			var match = regexp.exec(value);
 			if (match) {
 				return match[1];
 			}
-		});
+		}).filter(x=>!!x);
 	}
 }
 

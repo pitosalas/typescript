@@ -31,12 +31,11 @@ var CSVFile = (function () {
     CSVFile.prototype.questions = function () {
         var regexp = /\[(.*)\]/;
         return this.rawRecords[0].map(function (value) {
-            console.log(value);
             var match = regexp.exec(value);
             if (match) {
                 return match[1];
             }
-        });
+        }).filter(function (x) { return !!x; });
     };
     return CSVFile;
 })();
