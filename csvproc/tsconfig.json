@@ -5,10 +5,5 @@
         "outDir": "built/",
         "sourceMap": true,
         "target": "es5"
-    },
-    "files": [
-        "./converter.ts",
-        "./test.ts",
-        "./typings/tsd.d.ts"
-    ]
+    }
 }
