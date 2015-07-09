@@ -44,16 +44,43 @@ class GoogleDataFile {
 		parser.end();
 	}
 
-	recordCount(): number {
-		return 0;
+	questions(): string[] {
+			var regexp = /\[(.*)\]/;
+			return this.rawRecords[0].map((value) => {
+				var match = regexp.exec(value);
+				if (match) {
+					return match[1];
+				}
+			}).filter(x=>!!x);
 	}
 
+	surveys(): Survey[] {
+		var prevDate:Date = new Date('Jan 1 2015');
+		var samples = 0;
+		var day = 1000*60*60*24;
+		var result: Survey[] = [];
+		var survey:Survey;
+		var questions:string[] = this.questions();
 
+		for (var i in this.rawRecords) {
+			if (i == 0) { continue; }
+			var resp:string[] = this.rawRecords[i];
+			var sampDate:Date = new Date(resp[0]);
+			var diff = (sampDate.getTime() - prevDate.getTime())/day;
+			if (diff > 5.0) {
+				survey = new Survey(sampDate, questions);
+				result.push(survey);
+			}	else {
+				survey.samples += 1;
+				survey.indexEnd = i*1;
+			};
+			prevDate = sampDate;
+			}
+		return result;
+	}
+}
 
-var csv = new CSVFile();
-csv.prepareFile("cs105spring2015.csv");
-var surv = new Survey();
-surv.analyze(csv);
-
-console.log(csv.questions());
-console.log(surv.surveys());
+var datafile = new GoogleDataFile();
+datafile.prepareFile("cs105spring2015.csv");
+var surveys: Survey[] = datafile.surveys();
+console.dir(surveys);
