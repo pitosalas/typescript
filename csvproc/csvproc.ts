@@ -1,5 +1,3 @@
-import fs = require('fs');
-import should = require('should');
 import surv = require("./survey");
 import data = require("./googledatafile");
 
