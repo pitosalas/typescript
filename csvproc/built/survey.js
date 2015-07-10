@@ -7,4 +7,5 @@ var Survey = (function () {
     };
     return Survey;
 })();
+exports.Survey = Survey;
 //# sourceMappingURL=survey.js.map

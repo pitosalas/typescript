@@ -1,18 +1,8 @@
 import fs = require('fs');
-import should = require('should');
+import surv = require("./survey");
 var parse = require('csv-parse');
 
-interface Question {
-	number: number;
-	text: string;
-};
-
-interface Answers {
-	ordinal: number;
-	text: string;
-}
-
-class GoogleDataFile {
+export class GoogleDataFile {
 	fileName: string;
 	rawRecords: string[][];
 
@@ -54,12 +44,12 @@ class GoogleDataFile {
 			}).filter(x=>!!x);
 	}
 
-	surveys(): Survey[] {
+	surveys(): surv.Survey[] {
 		var prevDate:Date = new Date('Jan 1 2015');
 		var samples = 0;
 		var day = 1000*60*60*24;
-		var result: Survey[] = [];
-		var survey:Survey;
+		var result: surv.Survey[] = [];
+		var survey:surv.Survey;
 		var questions:string[] = this.questions();
 
 		for (var i in this.rawRecords) {
@@ -68,7 +58,7 @@ class GoogleDataFile {
 			var sampDate:Date = new Date(resp[0]);
 			var diff = (sampDate.getTime() - prevDate.getTime())/day;
 			if (diff > 5.0) {
-				survey = new Survey(sampDate, questions);
+				survey = new surv.Survey(sampDate, questions);
 				result.push(survey);
 			}	else {
 				survey.samples += 1;
@@ -79,8 +69,3 @@ class GoogleDataFile {
 		return result;
 	}
 }
-
-var datafile = new GoogleDataFile();
-datafile.prepareFile("cs105spring2015.csv");
-var surveys: Survey[] = datafile.surveys();
-console.dir(surveys);

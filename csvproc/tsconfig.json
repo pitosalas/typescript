@@ -5,5 +5,17 @@
         "outDir": "built/",
         "sourceMap": true,
         "target": "es5"
-    }
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./test.ts"
+    ],
+    "files": [
+        "./csvproc.ts",
+        "./googledatafile.ts",
+        "./survey.ts",
+        "./typings/node/node-0.10.d.ts",
+        "./typings/should/should.d.ts",
+        "./typings/tsd.d.ts"
+    ]
 }

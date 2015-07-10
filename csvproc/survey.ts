@@ -1,4 +1,4 @@
-class Survey {
+export class Survey {
   when: Date;
   samples: number;
   indexStart: number;

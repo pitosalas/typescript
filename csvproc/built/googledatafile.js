@@ -1,6 +1,6 @@
 var fs = require('fs');
+var surv = require("./survey");
 var parse = require('csv-parse');
-;
 var GoogleDataFile = (function () {
     function GoogleDataFile() {
         this.rawRecords = [];
@@ -49,7 +49,7 @@ var GoogleDataFile = (function () {
             var sampDate = new Date(resp[0]);
             var diff = (sampDate.getTime() - prevDate.getTime()) / day;
             if (diff > 5.0) {
-                survey = new Survey(sampDate, questions);
+                survey = new surv.Survey(sampDate, questions);
                 result.push(survey);
             }
             else {
@@ -63,8 +63,5 @@ var GoogleDataFile = (function () {
     };
     return GoogleDataFile;
 })();
-var datafile = new GoogleDataFile();
-datafile.prepareFile("cs105spring2015.csv");
-var surveys = datafile.surveys();
-console.dir(surveys);
+exports.GoogleDataFile = GoogleDataFile;
 //# sourceMappingURL=googledatafile.js.map
