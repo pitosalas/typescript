@@ -1,7 +1,8 @@
 var Survey = (function () {
-    function Survey(when, questions) {
+    function Survey(when, indexStart) {
         this.when = when;
-        this, questions = questions;
+        this.indexStart = indexStart;
+        this.samples = 0;
     }
     Survey.prototype.analyze = function () {
     };

@@ -5,10 +5,8 @@ var Config = (function () {
     Config.prototype.fromJSONFile = function (fileName) {
         var fileString = fs.readFileSync(fileName);
         var answers = JSON.parse(fileString.toString());
-        console.log(answers);
     };
     return Config;
 })();
-var c = new Config();
-c.fromJSONFile("./csvconfig.json");
-//# sourceMappingURL=test.js.map
+exports.Config = Config;
+//# sourceMappingURL=config.js.map

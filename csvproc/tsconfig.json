@@ -7,13 +7,15 @@
         "target": "es5"
     },
     "filesGlob": [
-        "./**/*.ts",
-        "!./test.ts"
+        "./**/*.ts"
     ],
     "files": [
+        "./config.ts",
         "./csvproc.ts",
-        "./googledatafile.ts",
+        "./datafile.ts",
+        "./project.ts",
         "./survey.ts",
+        "./test.ts",
         "./typings/node/node-0.10.d.ts",
         "./typings/should/should.d.ts",
         "./typings/tsd.d.ts"

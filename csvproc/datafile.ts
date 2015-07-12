@@ -1,8 +1,9 @@
 import fs = require('fs');
-import surv = require("./survey");
+import { Survey } from './survey';
+
 var parse = require('csv-parse');
 
-export class GoogleDataFile {
+export class DataFile {
 	fileName: string;
 	rawRecords: string[][];
 
@@ -44,12 +45,12 @@ export class GoogleDataFile {
 			}).filter(x=>!!x);
 	}
 
-	surveys(): surv.Survey[] {
+	surveys(): Survey[] {
 		var prevDate:Date = new Date('Jan 1 2015');
 		var samples = 0;
 		var day = 1000*60*60*24;
-		var result: surv.Survey[] = [];
-		var survey:surv.Survey;
+		var result: Survey[] = [];
+		var survey:Survey;
 		var questions:string[] = this.questions();
 
 		for (var i in this.rawRecords) {
@@ -58,7 +59,7 @@ export class GoogleDataFile {
 			var sampDate:Date = new Date(resp[0]);
 			var diff = (sampDate.getTime() - prevDate.getTime())/day;
 			if (diff > 5.0) {
-				survey = new surv.Survey(sampDate, questions);
+				survey = new Survey(sampDate, i*1);
 				result.push(survey);
 			}	else {
 				survey.samples += 1;
@@ -67,5 +68,9 @@ export class GoogleDataFile {
 			prevDate = sampDate;
 			}
 		return result;
+	}
+
+	surveyData() {
+		
 	}
 }

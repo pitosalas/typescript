@@ -1,11 +1,11 @@
 var fs = require('fs');
 var survey_1 = require('./survey');
 var parse = require('csv-parse');
-var GoogleDataFile = (function () {
-    function GoogleDataFile() {
+var DataFile = (function () {
+    function DataFile() {
         this.rawRecords = [];
     }
-    GoogleDataFile.prototype.prepareFile = function (name) {
+    DataFile.prototype.prepareFile = function (name) {
         var _this = this;
         this.fileName = name;
         var data = fs.readFileSync(name, "utf8");
@@ -25,7 +25,7 @@ var GoogleDataFile = (function () {
         parser.write(data);
         parser.end();
     };
-    GoogleDataFile.prototype.questions = function () {
+    DataFile.prototype.questions = function () {
         var regexp = /\[(.*)\]/;
         return this.rawRecords[0].map(function (value) {
             var match = regexp.exec(value);
@@ -34,7 +34,7 @@ var GoogleDataFile = (function () {
             }
         }).filter(function (x) { return !!x; });
     };
-    GoogleDataFile.prototype.surveys = function () {
+    DataFile.prototype.surveys = function () {
         var prevDate = new Date('Jan 1 2015');
         var samples = 0;
         var day = 1000 * 60 * 60 * 24;
@@ -49,7 +49,7 @@ var GoogleDataFile = (function () {
             var sampDate = new Date(resp[0]);
             var diff = (sampDate.getTime() - prevDate.getTime()) / day;
             if (diff > 5.0) {
-                survey = new survey_1.Survey(sampDate, questions);
+                survey = new survey_1.Survey(sampDate, i * 1);
                 result.push(survey);
             }
             else {
@@ -61,7 +61,9 @@ var GoogleDataFile = (function () {
         }
         return result;
     };
-    return GoogleDataFile;
+    DataFile.prototype.surveyData = function () {
+    };
+    return DataFile;
 })();
-exports.GoogleDataFile = GoogleDataFile;
-//# sourceMappingURL=googledatafile.js.map
+exports.DataFile = DataFile;
+//# sourceMappingURL=datafile.js.map

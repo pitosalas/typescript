@@ -3,11 +3,11 @@ export class Survey {
   samples: number;
   indexStart: number;
   indexEnd: number;
-  questions: string[];
 
-  constructor(when:Date, questions:string[]) {
+  constructor(when:Date, indexStart:number) {
     this.when = when;
-    this,questions = questions;
+    this.indexStart = indexStart;
+    this.samples = 0;
   }
 
   analyze() {
