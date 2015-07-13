@@ -57,6 +57,8 @@ var DataFile = (function () {
                 survey.indexEnd = i * 1;
             }
             ;
+            var response = this.rawRecords[i].slice(1);
+            survey.addResponse(response);
             prevDate = sampDate;
         }
         return result;

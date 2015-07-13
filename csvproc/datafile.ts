@@ -65,12 +65,15 @@ export class DataFile {
 				survey.samples += 1;
 				survey.indexEnd = i*1;
 			};
+			var response:string[] = this.rawRecords[i].slice(1);
+			
+			survey.addResponse(response);
 			prevDate = sampDate;
 			}
 		return result;
 	}
 
 	surveyData() {
-		
+
 	}
 }

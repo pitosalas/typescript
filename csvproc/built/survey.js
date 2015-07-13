@@ -3,7 +3,11 @@ var Survey = (function () {
         this.when = when;
         this.indexStart = indexStart;
         this.samples = 0;
+        this.responses = [];
     }
+    Survey.prototype.addResponse = function (response) {
+        this.responses.push(response);
+    };
     Survey.prototype.analyze = function () {
     };
     return Survey;
