@@ -1,17 +1,21 @@
 import fs = require('fs');
 import { Survey } from './survey';
+import { Config } from './config';
+
 
 var parse = require('csv-parse');
 
 export class DataFile {
 	fileName: string;
 	rawRecords: string[][];
+	config:Config;
 
 	constructor() {
 		this.rawRecords = [];
 	}
 
-	prepareFile(name: string) {
+	prepareFile(name: string, config:Config) {
+		this.config = config;
 		this.fileName = name;
 		var data = fs.readFileSync(name, "utf8");
 		var parser = parse();
@@ -41,6 +45,8 @@ export class DataFile {
 				var match = regexp.exec(value);
 				if (match) {
 					return match[1];
+				} else {
+					console.log(value);
 				}
 			}).filter(x=>!!x);
 	}
@@ -51,7 +57,6 @@ export class DataFile {
 		var day = 1000*60*60*24;
 		var result: Survey[] = [];
 		var survey:Survey;
-		var questions:string[] = this.questions();
 
 		for (var i in this.rawRecords) {
 			if (i == 0) { continue; }
@@ -65,9 +70,10 @@ export class DataFile {
 				survey.samples += 1;
 				survey.indexEnd = i*1;
 			};
-			var response:string[] = this.rawRecords[i].slice(1);
-			
-			survey.addResponse(response);
+			var respStrings:string[] = this.rawRecords[i].slice(1);
+			var respInts:number[] = respStrings.map(this.config.mapAnswerToNum);
+			console.dir(respInts);
+			survey.addResponse(respInts);
 			prevDate = sampDate;
 			}
 		return result;

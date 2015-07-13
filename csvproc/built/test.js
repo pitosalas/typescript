@@ -1,14 +1,4 @@
-var fs = require('fs');
-var Config = (function () {
-    function Config() {
-    }
-    Config.prototype.fromJSONFile = function (fileName) {
-        var fileString = fs.readFileSync(fileName);
-        var answers = JSON.parse(fileString.toString());
-        console.log(answers);
-    };
-    return Config;
-})();
-var c = new Config();
-c.fromJSONFile("./csvconfig.json");
+console.log("step 1");
+console.log("step 2");
+console.log("step 3");
 //# sourceMappingURL=test.js.map

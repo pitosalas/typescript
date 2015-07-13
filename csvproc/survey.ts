@@ -3,7 +3,7 @@ export class Survey {
   samples: number;
   indexStart: number;
   indexEnd: number;
-  responses: string[][];
+  responses: number[][];
 
   constructor(when:Date, indexStart:number) {
     this.when = when;
@@ -12,7 +12,7 @@ export class Survey {
     this.responses = []
   }
 
-  addResponse(response: string[]) {
+  addResponse(response: number[]) {
     this.responses.push(response);
   }
 

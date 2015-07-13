@@ -5,8 +5,9 @@ var DataFile = (function () {
     function DataFile() {
         this.rawRecords = [];
     }
-    DataFile.prototype.prepareFile = function (name) {
+    DataFile.prototype.prepareFile = function (name, config) {
         var _this = this;
+        this.config = config;
         this.fileName = name;
         var data = fs.readFileSync(name, "utf8");
         var parser = parse();
@@ -32,6 +33,9 @@ var DataFile = (function () {
             if (match) {
                 return match[1];
             }
+            else {
+                console.log(value);
+            }
         }).filter(function (x) { return !!x; });
     };
     DataFile.prototype.surveys = function () {
@@ -40,7 +44,6 @@ var DataFile = (function () {
         var day = 1000 * 60 * 60 * 24;
         var result = [];
         var survey;
-        var questions = this.questions();
         for (var i in this.rawRecords) {
             if (i == 0) {
                 continue;
@@ -57,8 +60,10 @@ var DataFile = (function () {
                 survey.indexEnd = i * 1;
             }
             ;
-            var response = this.rawRecords[i].slice(1);
-            survey.addResponse(response);
+            var respStrings = this.rawRecords[i].slice(1);
+            var respInts = respStrings.map(this.config.mapAnswerToNum);
+            console.dir(respInts);
+            survey.addResponse(respInts);
             prevDate = sampDate;
         }
         return result;
