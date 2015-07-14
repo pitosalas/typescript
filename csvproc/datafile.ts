@@ -28,12 +28,12 @@ export class DataFile {
 		});
 
 		parser.on('error', function(err) {
-			console.log("****: "+err.message);
+			console.log("WARN: "+err.message);
 		});
 
-		parser.on('finish', function() {
+		/*parser.on('finish', function() {
 			console.log("csv finished")
-		});
+		});*/
 
 		parser.write(data);
 		parser.end();
@@ -46,7 +46,7 @@ export class DataFile {
 				if (match) {
 					return match[1];
 				} else {
-					console.log(value);
+					console.log(`WARN: Header that's not a question: ${value}`);
 				}
 			}).filter(x=>!!x);
 	}
@@ -70,9 +70,8 @@ export class DataFile {
 				survey.samples += 1;
 				survey.indexEnd = i*1;
 			};
-			var respStrings:string[] = this.rawRecords[i].slice(1);
-			var respInts:number[] = respStrings.map(this.config.mapAnswerToNum);
-			console.dir(respInts);
+			var respStrings:string[] = this.rawRecords[i].slice(1, -1);
+			var respInts:number[] = respStrings.map((s) => this.config.mapAnswerToNum(s));
 			survey.addResponse(respInts);
 			prevDate = sampDate;
 			}
