@@ -4,15 +4,19 @@ var Config = (function () {
     }
     Config.prototype.fromJSONFile = function (fileName) {
         var fileString = fs.readFileSync(fileName);
-        var answers = JSON.parse(fileString.toString());
+        var parsedFile = JSON.parse(fileString.toString());
+        this.responses = parsedFile.responses;
+        this.timestamp_column = parsedFile.timestamp_column;
+        this.name_column = parsedFile.name_column;
     };
     Config.prototype.mapAnswerToNum = function (answer) {
-        for (var a in this.answers) {
+        for (var _i = 0, _a = this.responses; _i < _a.length; _i++) {
+            var a = _a[_i];
             if (a.text == answer) {
                 return a.order;
             }
         }
-        throw new Error("Invalid response string");
+        throw new Error("Invalid response string " + answer);
     };
     return Config;
 })();

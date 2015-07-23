@@ -18,11 +18,11 @@ var DataFile = (function () {
             }
         });
         parser.on('error', function (err) {
-            console.log("****: " + err.message);
+            console.log("WARN: " + err.message);
         });
-        parser.on('finish', function () {
-            console.log("csv finished");
-        });
+        /*parser.on('finish', function() {
+            console.log("csv finished")
+        });*/
         parser.write(data);
         parser.end();
     };
@@ -34,11 +34,12 @@ var DataFile = (function () {
                 return match[1];
             }
             else {
-                console.log(value);
+                console.log("WARN: Header that's not a question: " + value);
             }
         }).filter(function (x) { return !!x; });
     };
     DataFile.prototype.surveys = function () {
+        var _this = this;
         var prevDate = new Date('Jan 1 2015');
         var samples = 0;
         var day = 1000 * 60 * 60 * 24;
@@ -60,9 +61,8 @@ var DataFile = (function () {
                 survey.indexEnd = i * 1;
             }
             ;
-            var respStrings = this.rawRecords[i].slice(1);
-            var respInts = respStrings.map(this.config.mapAnswerToNum);
-            console.dir(respInts);
+            var respStrings = this.rawRecords[i].slice(1, -1);
+            var respInts = respStrings.map(function (s) { return _this.config.mapAnswerToNum(s); });
             survey.addResponse(respInts);
             prevDate = sampDate;
         }
